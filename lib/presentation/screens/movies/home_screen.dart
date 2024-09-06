@@ -31,6 +31,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     super.initState();
     
     ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage();
+    ref.read( popularMoviesProvider.notifier ).loadNextPage();
   }
 
   @override
@@ -38,24 +39,66 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
     final nowPlayingMovies = ref.watch( nowPlayingMoviesProvider );
     final slideShowMovies = ref.watch( moviesSlideshowProvider );
+    final popularMovies = ref.watch( popularMoviesProvider );
 
 
-    return Column(
-      children: [
+    return CustomScrollView(
+      slivers: [
+        
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(
+            title: CustomAppbar()
+          ),
+        ),
 
-        const CustomAppbar(),
+        SliverList(delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return Column(
+              children: [
+            
+                // const CustomAppbar(),
+            
+                MoviesSlideshow( movies: slideShowMovies ),
+            
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'En Cines',
+                  subtitle: 'Miércoles 04',
+                  loadNextPage: () => ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage(),
+                ),
+            
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Próximamente',
+                  subtitle: 'En este mes',
+                  loadNextPage: () => ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage(),
+                ),
+            
+                MovieHorizontalListview(
+                  movies: popularMovies,
+                  title: 'Populares',
+                  // subtitle: '',
+                  loadNextPage: () => ref.read( popularMoviesProvider.notifier ).loadNextPage(),
+                ),
+            
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Mejor calificadas',
+                  subtitle: 'Desde siempre',
+                  loadNextPage: () => ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage(),
+                ),
 
-        MoviesSlideshow( movies: slideShowMovies ),
-
-        MovieHorizontalListview(
-          movies: nowPlayingMovies,
-          title: 'En Cines',
-          subtitle: 'Miércoles 04',
-          loadNextPage: () { 
-            ref.read( nowPlayingMoviesProvider.notifier ).loadNextPage();
+                const SizedBox(height: 15)
+              ],
+            );
           },
-        )
-      ],
+          childCount: 1
+        )),
+
+      ]
+      
+      
     );
   }
 }
