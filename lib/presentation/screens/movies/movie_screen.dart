@@ -90,7 +90,7 @@ class _MovieDetails extends StatelessWidget {
                 ),
               ),
 
-              SizedBox( width: 10 ),
+              const SizedBox( width: 10 ),
 
               //* Description
               SizedBox(
