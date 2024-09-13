@@ -34,12 +34,14 @@ class CustomAppbar extends ConsumerWidget {
                   final movieRepository = ref.read( movieRepositoryProvider );
 
                   showSearch<Movie?>(
+                    query: 'antman',
                     context: context, 
                     delegate: SearchMovieDelegate(
                       searchMovies: movieRepository.searchMovies
                     )
                   ).then((movie) {
                     if ( movie == null ) return;
+                    
                     context.push('/movie/${ movie.id }');
                   });
                 }, 
