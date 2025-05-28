@@ -106,7 +106,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
           clearStreams();
           close(context, null);
         },
-        icon: const Icon(Icons.arrow_back_ios_new_outlined));
+        icon: const Icon(Icons.arrow_back));
   }
 
   @override
